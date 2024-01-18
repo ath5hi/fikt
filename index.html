@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .step {
+            display: none;
+        }
+        .step.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="step1" class="step active">
+        <h2>Enter your name:</h2>
+        <input type="text" id="userName" name="userName">
+        <button onclick="nextStep()">Submit</button>
+    </div>
+
+    <div id="step2" class="step active">
+        <h2>Enter your name:</h2>
+        <input type="text" id="userName" name="userName">
+        <button onclick="nextStep()">Submit</button>
+    </div>
+
+<div id="step3" class="step active">
+    <h2>Choose two more names:</h2>
+    <div id="selectNames" class="grid">
+        <!-- Cards will be added here -->
+    </div>
+    <button onclick="nextStep()">Submit</button>
+</div>
+
+<div id="step4" class="step">
+    <h2>You have selected:</h2>
+    <p id="selectedNames"></p>
+    <h2>Results:</h2>
+    <table id="resultsTable">
+        <tr>
+            <th>Name</th>
+            <th>Who will Disqualify</th>
+            <th>Who are in bottom rank</th>
+        </tr>
+    </table>
+</div>
+
+<script>
+var names = ["Elísabet", "Birgitta", "Stefán Óli", "Anna Fanney", "Rakel", "Björgvin", "Jóna Margrét", "Ólafur Jóhann"];
+var disqualifiedName = "";
+var selectedNames = [];
+
+function disqualifyName(name) {
+    disqualifiedName = name;
+    document.getElementById('disqualifiedName').innerText = disqualifiedName;
+}
+
+function selectName(name) {
+    if (selectedNames.includes(name)) {
+        selectedNames = selectedNames.filter(n => n !== name);
+    } else if (selectedNames.length < 2) {
+        selectedNames.push(name);
+    }
+    document.getElementById('selectedNames').innerText = selectedNames.join(', ');
+}
+
+window.onload = function() {
+    var disqualifyNamesDiv = document.getElementById('disqualifyNames');
+    var selectNamesDiv = document.getElementById('selectNames');
+    names.forEach(function(name) {
+        var imageName = name.toLowerCase().replace(' ', ''); // Convert the name to lowercase and remove spaces
+        var card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = '<a href="#" onclick="disqualifyName(\'' + name + '\')"><img src="img/' + imageName + '.jpg" alt="' + name + '" style="width:100%"><div class="container"><h4><b>' + name + '</b></h4></div></a>';
+        disqualifyNamesDiv.appendChild(card);
+
+        var card2 = document.createElement('div');
+        card2.className = 'card';
+        card2.innerHTML = '<a href="#" onclick="selectName(\'' + name + '\')"><img src="img/' + imageName + '.jpg" alt="' + name + '" style="width:100%"><div class="container"><h4><b>' + name + '</b></h4></div></a>';
+        selectNamesDiv.appendChild(card2);
+    });
+};
+
+function nextStep() {
+    // Get all steps
+    var steps = document.getElementsByClassName('step');
+    var currentStep = 0;
+
+    // Find the current active step
+    for (var i = 0; i < steps.length; i++) {
+        if (steps[i].classList.contains('active')) {
+            currentStep = i;
+            steps[i].classList.remove('active');
+            break;
+        }
+    }
+
+    // Show the next step if it exists, otherwise stay on the current step
+    if (currentStep < steps.length - 1) {
+        steps[currentStep + 1].classList.add('active');
+    } else {
+        steps[currentStep].classList.add('active');
+    }
+}
+
+function submit() {
+    var userName = document.getElementById('userName').value;
+    var table = document.getElementById('resultsTable');
+    var row = table.insertRow(-1);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    cell1.innerHTML = userName;
+    cell2.innerHTML = disqualifiedName;
+    cell3.innerHTML = selectedNames.join(', ');
+    nextStep(4);
+}
+</script>
+
+</body>
+</html>

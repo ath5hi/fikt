@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h2>Enter your name:</h2>
+<input type="text" id="userName" name="userName">
+
+<h2>Choose a name to disqualify:</h2>
+<div id="disqualifyNames" class="grid">
+    <!-- Cards will be added here -->
+</div>
+
+<h2>Choose two more names:</h2>
+<div id="selectNames" class="grid">
+    <!-- Cards will be added here -->
+</div>
+
+<script>
+var names = ["Elísabet", "Birgitta", "Stefán Óli", "Anna Fanney", "Rakel", "Björgvin", "Jóna Margrét", "Ólafur Jóhann"];
+var disqualifiedName = "";
+var selectedNames = [];
+
+function disqualifyName(name) {
+    disqualifiedName = name;
+    document.getElementById('disqualifiedName').innerText = disqualifiedName;
+}
+
+function selectName(name) {
+    if (selectedNames.includes(name)) {
+        selectedNames = selectedNames.filter(n => n !== name);
+    } else if (selectedNames.length < 2) {
+        selectedNames.push(name);
+    }
+    document.getElementById('selectedNames').innerText = selectedNames.join(', ');
+}
+
+window.onload = function() {
+    var disqualifyNamesDiv = document.getElementById('disqualifyNames');
+    var selectNamesDiv = document.getElementById('selectNames');
+    names.forEach(function(name) {
+        var imageName = name.toLowerCase().replace(' ', ''); // Convert the name to lowercase and remove spaces
+        var card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = '<a href="#" onclick="disqualifyName(\'' + name + '\')"><img src="img/' + imageName + '.jpg" alt="' + name + '" style="width:100%"><div class="container"><h4><b>' + name + '</b></h4></div></a>';
+        disqualifyNamesDiv.appendChild(card);
+
+        var card2 = document.createElement('div');
+        card2.className = 'card';
+        card2.innerHTML = '<a href="#" onclick="selectName(\'' + name + '\')"><img src="img/' + imageName + '.jpg" alt="' + name + '" style="width:100%"><div class="container"><h4><b>' + name + '</b></h4></div></a>';
+        selectNamesDiv.appendChild(card2);
+    });
+};
+</script>
+
+<h2>You have disqualified:</h2>
+<p id="disqualifiedName"></p>
+
+<h2>You have selected:</h2>
+<p id="selectedNames"></p>
+
+</body>
+</html>
