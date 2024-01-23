@@ -2,6 +2,9 @@
 <html>
 <head>
     <link rel="stylesheet" href="styles.css">
+        <style>
+
+    </style>
 </head>
 <body>
 <h2>Enter your name:</h2>
@@ -52,6 +55,18 @@ window.onload = function() {
         selectNamesDiv.appendChild(card2);
     });
 };
+
+function submit() {
+    var userName = document.getElementById('userName').value;
+    var table = document.getElementById('resultsTable');
+    var row = table.insertRow(-1);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    cell1.innerHTML = userName;
+    cell2.innerHTML = disqualifiedName;
+    cell3.innerHTML = selectedNames.join(', ');
+}
 </script>
 
 <h2>You have disqualified:</h2>
@@ -59,6 +74,17 @@ window.onload = function() {
 
 <h2>You have selected:</h2>
 <p id="selectedNames"></p>
+
+<button onclick="submit()">Submit</button>
+
+<h2>Results:</h2>
+<table id="resultsTable">
+    <tr>
+        <th>Name</th>
+        <th>Who will Disqualify</th>
+        <th>Who are in bottom rank</th>
+    </tr>
+</table>
 
 </body>
 </html>
